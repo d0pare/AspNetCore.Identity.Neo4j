@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>AspNetCore.Identity.Neo4j</PackageId>
+    <PackageTags>aspnetcore;identity;membership;neo4j</PackageTags>
+    <Title>AspNetCore.Identity.Neo4j</Title>
+    <Description>ASP.NET Core Identity provider based on Neo4j</Description>
+    <Authors>d0pare</Authors>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Optimize Condition="'$(Configuration)'!='Debug'">true</Optimize>
+    <VersionSuffix>preview2</VersionSuffix>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/d0pare/AspNetCore.Identity.Neo4j</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/d0pare/AspNetCore.Identity.Neo4j</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\build\Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Neo4j.Driver" Version="1.7.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+</Project>
