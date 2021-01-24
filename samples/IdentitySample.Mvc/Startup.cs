@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IdentitySample.Mvc.Data;
 using IdentitySample.Mvc.Services;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 
 namespace IdentitySample.Mvc
 {
@@ -29,7 +29,7 @@ namespace IdentitySample.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(s => GraphDatabase.Driver(Configuration.GetConnectionString("DefaultConnection"), AuthTokens.Basic("neo4j", "neo4j")));
-            services.AddScoped(s => s.GetService<IDriver>().Session());
+            services.AddScoped(s => s.GetService<IDriver>().AsyncSession());
 
             services.AddIdentity<ApplicationUser, Neo4jIdentityRole>()
                 .AddNeo4jDataStores()

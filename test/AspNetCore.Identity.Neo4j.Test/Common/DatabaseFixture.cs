@@ -1,30 +1,30 @@
 ﻿using System;
 using AspNetCore.Identity.Neo4j.Test.Models;
 using Microsoft.AspNetCore.Identity;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 
 namespace AspNetCore.Identity.Neo4j.Test.Common
 {
     public class DatabaseFixture : IDisposable
     {
         private readonly IDriver _driver;
-        private readonly ISession _session;
+        private readonly IAsyncSession _session;
 
         public DatabaseFixture()
         {
             _driver = GraphDatabase.Driver("bolt://127.0.0.1:7687", AuthTokens.Basic("neo4j", "neo4j"));
-            _session = _driver.Session();
+            _session = _driver.AsyncSession();
             var identityErrorDescriber = new IdentityErrorDescriber();
 
             UserStore = new Neo4jUserStore<TestUser, TestRole>(_session, identityErrorDescriber);
             RoleStore = new Neo4jRoleStore<TestRole>(_session, identityErrorDescriber);
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
-            _session.Run("MATCH (u:TestUser) DETACH DELETE u");
-            _session.Run("MATCH (r:TestRole) DETACH DELETE r");
-            _session.Dispose();
+            await _session.RunAsync("MATCH (u:TestUser) DETACH DELETE u");
+            await _session.RunAsync("MATCH (r:TestRole) DETACH DELETE r");
+            await _session.CloseAsync();
             _driver.Dispose();
         }
 

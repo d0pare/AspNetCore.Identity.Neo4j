@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Xunit;
 using Moq;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using AspNetCore.Identity.Neo4j.Test.Models;
 
 namespace AspNetCore.Identity.Neo4j.Test
@@ -15,14 +15,14 @@ namespace AspNetCore.Identity.Neo4j.Test
         public void ISession_Null_Exception()
         {
             var exception = Assert.Throws<ArgumentNullException>(() => new Neo4jUserStore<TestUser, TestRole>(null, new IdentityErrorDescriber()));
-            Assert.Equal(exception.ParamName, "session");
+            Assert.Equal("session", exception.ParamName);
         }
 
         [Fact]
         public async Task Throw_Disposed()
         {
             var identityErrorDescriber = new IdentityErrorDescriber();
-            var store = new Neo4jUserStore<TestUser, TestRole>(new Mock<ISession>().Object, identityErrorDescriber);
+            var store = new Neo4jUserStore<TestUser, TestRole>(new Mock<IAsyncSession>().Object, identityErrorDescriber);
             store.Dispose();
 
             Assert.Equal(identityErrorDescriber, store.ErrorDescriber);

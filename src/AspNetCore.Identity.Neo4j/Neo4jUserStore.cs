@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using AspNetCore.Identity.Neo4j.Internal.Extensions;
 using AspNetCore.Identity.Neo4j.Internal;
 
@@ -24,7 +24,7 @@ namespace AspNetCore.Identity.Neo4j
         /// </summary>
         /// <param name="session">The <see cref="ISession"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public Neo4jUserStore(ISession session, IdentityErrorDescriber describer = null) : base(session, describer) { }
+        public Neo4jUserStore(IAsyncSession session, IdentityErrorDescriber describer = null) : base(session, describer) { }
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace AspNetCore.Identity.Neo4j
         /// </summary>
         /// <param name="session">The <see cref="ISession"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public Neo4jUserStore(ISession session, IdentityErrorDescriber describer = null) : base(session, describer) { }
+        public Neo4jUserStore(IAsyncSession session, IdentityErrorDescriber describer = null) : base(session, describer) { }
     }
 
     /// <summary>
@@ -83,7 +83,7 @@ namespace AspNetCore.Identity.Neo4j
         /// </summary>
         /// <param name="session">The context used to access the store.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/> used to describe store errors.</param>
-        public Neo4jUserStore(ISession session, IdentityErrorDescriber describer = null) : base(describer ?? new IdentityErrorDescriber())
+        public Neo4jUserStore(IAsyncSession session, IdentityErrorDescriber describer = null) : base(describer ?? new IdentityErrorDescriber())
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
         }
@@ -91,7 +91,7 @@ namespace AspNetCore.Identity.Neo4j
         /// <summary>
         /// Gets the database context for this store.
         /// </summary>
-        public ISession Session { get; }
+        public IAsyncSession Session { get; }
 
         /// <summary>
         /// Creates the specified <paramref name="user"/> in the user store.

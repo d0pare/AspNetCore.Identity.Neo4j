@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using AspNetCore.Identity.Neo4j.Internal.Extensions;
 using AspNetCore.Identity.Neo4j.Internal;
 
@@ -22,7 +22,7 @@ namespace AspNetCore.Identity.Neo4j
         /// </summary>
         /// <param name="session">The <see cref="ISession"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public Neo4jRoleStore(ISession session, IdentityErrorDescriber describer) : base(session, describer)
+        public Neo4jRoleStore(IAsyncSession session, IdentityErrorDescriber describer) : base(session, describer)
         {
         }
     }
@@ -44,7 +44,7 @@ namespace AspNetCore.Identity.Neo4j
         /// </summary>
         /// <param name="session">The <see cref="ISession"/>.</param>
         /// <param name="describer">The <see cref="IdentityErrorDescriber"/>.</param>
-        public Neo4jRoleStore(ISession session, IdentityErrorDescriber describer)
+        public Neo4jRoleStore(IAsyncSession session, IdentityErrorDescriber describer)
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
             ErrorDescriber = describer ?? new IdentityErrorDescriber();
@@ -55,7 +55,7 @@ namespace AspNetCore.Identity.Neo4j
         /// <summary>
         /// Gets the database session for this store.
         /// </summary>
-        public ISession Session { get; }
+        public IAsyncSession Session { get; }
 
         /// <summary>
         /// Gets or sets the <see cref="IdentityErrorDescriber"/> for any error that occurred with the current operation.
