@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using Newtonsoft.Json.Linq;
 
 namespace AspNetCore.Identity.Neo4j.Internal.Extensions

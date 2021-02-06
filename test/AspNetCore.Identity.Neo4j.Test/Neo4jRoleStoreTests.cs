@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 using Xunit;
 using AspNetCore.Identity.Neo4j.Test.Models;
 using AspNetCore.Identity.Neo4j.Internal;
@@ -14,13 +14,13 @@ namespace AspNetCore.Identity.Neo4j.Test
     public class Neo4jRoleStoreTests
     {
         private IdentityErrorDescriber _identityErrorDescriber;
-        private Mock<ISession> _sessionMock;
+        private Mock<IAsyncSession> _sessionMock;
         private Neo4jRoleStore<TestRole> _store;
 
         public Neo4jRoleStoreTests()
         {
             _identityErrorDescriber = new IdentityErrorDescriber();
-            _sessionMock = new Mock<ISession>();
+            _sessionMock = new Mock<IAsyncSession>();
             _store =  new Neo4jRoleStore<TestRole>(_sessionMock.Object, _identityErrorDescriber);
         }
 
@@ -28,7 +28,7 @@ namespace AspNetCore.Identity.Neo4j.Test
         public void ISession_Null_Exception()
         {
             var exception = Assert.Throws<ArgumentNullException>(() => new Neo4jRoleStore<TestRole>(null, new IdentityErrorDescriber()));
-            Assert.Equal(exception.ParamName, "session");
+            Assert.Equal("session", exception.ParamName);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace AspNetCore.Identity.Neo4j.Test
             };
 
             _sessionMock.Setup(s => s.RunAsync(It.IsAny<string>(), It.IsAny<Params<Dictionary<string,object>>>()))
-                .Returns(() => Task.FromResult(new Mock<IStatementResultCursor>().Object));
+                .Returns(() => Task.FromResult(new Mock<IResultCursor>().Object));
 
             var result = await _store.CreateAsync(role);
 

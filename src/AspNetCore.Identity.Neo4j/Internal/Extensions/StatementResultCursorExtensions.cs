@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Neo4j.Driver.V1;
+using Neo4j.Driver;
 
 namespace AspNetCore.Identity.Neo4j.Internal.Extensions
 {
@@ -15,7 +15,7 @@ namespace AspNetCore.Identity.Neo4j.Internal.Extensions
         /// <returns>The single element of the input sequence, or null if the sequence contains no elements.</returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="result">source</paramref> is null.</exception>
         /// <exception cref="T:System.InvalidOperationException">The input sequence contains more than one element.</exception>
-        public static async Task<IRecord> SingleOrDefaultAsync(this IStatementResultCursor result)
+        public static async Task<IRecord> SingleOrDefaultAsync(this IResultCursor result)
         {
             if (result == null)
             {
@@ -45,7 +45,7 @@ namespace AspNetCore.Identity.Neo4j.Internal.Extensions
         /// <exception cref="T:System.ArgumentNullException"><paramref name="result">result</paramref> is null.</exception>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="operation">operation</paramref> is null.</exception>
         /// <exception cref="T:System.InvalidOperationException">The input sequence contains more than one element.</exception>
-        public static async Task<TResult> SingleOrDefaultAsync<TResult>(this IStatementResultCursor result, Func<IRecord, TResult> operation)
+        public static async Task<TResult> SingleOrDefaultAsync<TResult>(this IResultCursor result, Func<IRecord, TResult> operation)
         {
             if (result == null)
             {
